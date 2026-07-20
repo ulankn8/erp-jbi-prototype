@@ -47,7 +47,10 @@ input,select{font:inherit;color:var(--ink);background:var(--surface);
 input:focus,select:focus,button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 
 .app{display:grid;grid-template-columns:232px 1fr;min-height:100vh}
-@media(max-width:860px){.app{grid-template-columns:1fr}.side{position:static;height:auto}}
+.hamburger{display:none;border:1px solid var(--line);background:var(--surface);border-radius:8px;
+  width:38px;height:38px;place-items:center;color:var(--ink);flex-shrink:0}
+.hamburger svg{width:20px;height:20px}
+.nav-overlay{display:none}
 
 /* ---------- sidebar ---------- */
 .side{background:var(--surface);border-right:1px solid var(--line);
@@ -280,6 +283,30 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
 .cov-row{display:grid;grid-template-columns:130px 1fr 90px;align-items:center;gap:10px;font-size:13px;padding:5px 0}
 .cov-track{height:8px;background:var(--surface2);border-radius:99px;overflow:hidden}
 .cov-fill{height:100%;border-radius:99px}
+
+/* ============ Адаптив для телефона (в конце, чтобы перекрыть базовые правила) ============ */
+@media(max-width:860px){
+  .app{display:block}
+  .side{position:fixed;top:0;left:0;height:100vh;width:280px;max-width:84vw;z-index:60;
+    transform:translateX(-100%);transition:transform .25s ease;overflow-y:auto;box-shadow:0 0 40px rgba(0,0,0,.35)}
+  body.nav-open .side{transform:none}
+  .nav-overlay{display:block;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:55;
+    opacity:0;visibility:hidden;transition:opacity .2s,visibility .2s}
+  body.nav-open .nav-overlay{opacity:1;visibility:visible}
+  .hamburger{display:grid}
+  .main{min-width:0}
+  .topbar{padding:10px 14px;gap:8px;flex-wrap:wrap}
+  .topbar h1{font-size:16px;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .topbar .spacer{display:none}
+  .chip-row{width:100%;order:3;justify-content:flex-start}
+  .content{padding:14px}
+  .card-h{padding:12px 14px}
+  .card-b{padding:13px 14px}
+  .search{min-width:0;flex:1}
+  .kpi .val{font-size:22px}
+  .cov-row{grid-template-columns:110px 1fr 78px}
+}
+@media(prefers-reduced-motion:reduce){.side{transition:none}}
 </style>
 
 <div class="app">
@@ -295,8 +322,10 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
   </div>
 </aside>
 
+<div class="nav-overlay" id="navOverlay"></div>
 <div class="main">
   <div class="topbar">
+    <button class="hamburger" id="hamburger" aria-label="Меню"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
     <h1 id="viewTitle"></h1>
     <div class="spacer"></div>
     <div class="chip-row">
@@ -781,7 +810,7 @@ function renderNav(){
         <span class="ico">${icon(m.icon)}</span>${lang==='ky'?m.ky:m.ru}</button>`).join('');
   }).join('');
   document.getElementById('footRole').textContent = ROLE_NAMES[role];
-  document.querySelectorAll('.nav-btn').forEach(b=>b.onclick=()=>{view=b.dataset.v; show();});
+  document.querySelectorAll('.nav-btn').forEach(b=>b.onclick=()=>{view=b.dataset.v; document.body.classList.remove('nav-open'); show();});
   renderRoleSel();
 }
 function renderRoleSel(){
@@ -1519,6 +1548,10 @@ document.addEventListener('click', e=>{
 });
 document.getElementById('langRu').onclick=()=>{lang='ru';applyLang();};
 document.getElementById('langKy').onclick=()=>{lang='ky';applyLang();};
+
+/* мобильное меню-шторка */
+document.getElementById('hamburger').onclick=()=>document.body.classList.toggle('nav-open');
+document.getElementById('navOverlay').onclick=()=>document.body.classList.remove('nav-open');
 
 /* ===== поиск с фильтрацией ===== */
 let search = {docs:'', tx:'', audit:'', crm:'', raw:'', fg:''};
