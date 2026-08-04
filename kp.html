@@ -128,6 +128,35 @@ section{margin-top:40px}
 .compare .now li::before{content:"";position:absolute;left:2px;top:15px;width:12px;height:2px;background:var(--amber);border-radius:2px}
 .compare .fut li::before{content:"✓";position:absolute;left:0;top:8px;color:var(--green);font-weight:800}
 
+/* стек: было / одна система / остаётся */
+.stack{display:grid;gap:14px}
+.stk-row{display:grid;grid-template-columns:190px 1fr;gap:16px;align-items:center}
+.stk-lbl{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.stk-items{display:flex;flex-wrap:wrap;gap:10px}
+.stk-chip{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  padding:11px 15px;box-shadow:var(--shadow);min-width:160px}
+.stk-chip .nm{font-weight:800;font-size:14.5px}
+.stk-chip .rs{font-size:12px;color:var(--muted);margin-top:2px}
+.stk-chip.x{border-left:3px solid var(--amber)}
+.stk-chip.x .nm{text-decoration:line-through;text-decoration-color:var(--amber);text-decoration-thickness:2px}
+.stk-chip.k{border-left:3px solid var(--green)}
+.stk-core{background:linear-gradient(150deg,var(--blue-soft),var(--surface));border:1.5px solid var(--blue);
+  border-radius:16px;padding:22px 24px;box-shadow:var(--shadow)}
+.core-h{display:flex;align-items:center;gap:13px}
+.core-h .lm{width:40px;height:40px;border-radius:11px;background:var(--blue);display:grid;place-items:center;flex-shrink:0}
+.core-h .lm svg{width:23px;height:23px;color:#fff}
+.core-h .tt b{font-size:18px;font-weight:800;display:block;letter-spacing:-.01em}
+.core-h .tt span{font-size:12.5px;font-weight:600;color:var(--muted)}
+.core-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin-top:16px}
+.core-grid > div{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-weight:700;font-size:14px}
+.core-grid > div span{display:block;font-weight:600;font-size:12px;color:var(--muted);margin-top:2px}
+.core-attach{margin-top:16px;border-top:1px dashed var(--blue);padding-top:14px}
+.att-t{font-weight:800;color:var(--green-ink);font-size:12px;letter-spacing:.05em;text-transform:uppercase}
+.att-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:9px}
+.att-row span{background:var(--green-soft);color:var(--green-ink);border-radius:999px;padding:6px 13px;font-weight:700;font-size:13px}
+.core-attach p{font-size:13px;color:var(--muted);margin-top:9px}
+@media (max-width:640px){ .stk-row{grid-template-columns:1fr;gap:8px} }
+
 /* benefit cards */
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
 .ben{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 18px 16px;box-shadow:var(--shadow)}
@@ -294,28 +323,44 @@ tr.total td.n{font-size:20px;letter-spacing:-.01em}
   <!-- ===== ЧТО МЕНЯЕТСЯ ===== -->
   <section>
     <div class="sec-h"><h2>Что меняется</h2></div>
-    <div class="compare">
-      <div class="col now">
-        <h3>Сейчас — 4 системы</h3>
-        <ul>
-          <li>IP-телефония — приём звонков</li>
-          <li>Битрикс24 — только лидогенерация, отдельная абонплата</li>
-          <li>МойСклад — заказы и учёт, отдельная абонплата</li>
-          <li>1С — бухгалтерия</li>
-          <li>Данные дублируются, переносятся руками, легко теряются</li>
-          <li>Транспорт и карьер вне системы — нет контроля отгрузок</li>
-        </ul>
+    <p class="lead-p" style="margin-bottom:20px">Битрикс24 и МойСклад — две отдельные системы с абонплатой, множеством лишних функций и неудобным интерфейсом. Мы заменяем их <b>одной системой под ваш завод</b> — простой и интуитивной. Всё нужное в одном месте, ничего лишнего.</p>
+
+    <div class="stack">
+      <div class="stk-row">
+        <div class="stk-lbl">Убираем</div>
+        <div class="stk-items">
+          <div class="stk-chip x"><span class="nm">Битрикс24</span><span class="rs">много лишнего · сложно · абонплата</span></div>
+          <div class="stk-chip x"><span class="nm">МойСклад</span><span class="rs">много лишнего · сложно · абонплата</span></div>
+        </div>
       </div>
-      <div class="col fut">
-        <h3>С нами — 1 система + 1С</h3>
-        <ul>
-          <li>IP-телефония — остаётся, интегрируем к нам</li>
-          <li>Битрикс24 — <b>убираем</b>, CRM внутри нашей системы</li>
-          <li>МойСклад — <b>убираем</b>, склад и заказы внутри системы</li>
-          <li>1С — остаётся, документы выгружаются автоматически</li>
-          <li>Единые данные, ввод один раз, ничего не теряется</li>
-          <li>Контроль транспорта на заводе и карьере через ANPR</li>
-        </ul>
+
+      <div class="stk-core">
+        <div class="core-h">
+          <span class="lm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1h6c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z"/></svg></span>
+          <div class="tt"><b>Одна система под ваш ЖБИ</b><span>вместо Битрикс24 и МойСклада — просто и интуитивно</span></div>
+        </div>
+        <div class="core-grid">
+          <div>CRM<span>звонки, лиды, заказы</span></div>
+          <div>Склад и производство<span>сырьё, ГП, спецификации</span></div>
+          <div>Электронные накладные<span>приход, расход, отчёты</span></div>
+        </div>
+        <div class="core-attach">
+          <div class="att-t">+ подключён контроль транспорта</div>
+          <div class="att-row">
+            <span>Электронные накладные</span>
+            <span>Автоматические шлагбаумы</span>
+            <span>Камеры ANPR — распознавание номеров</span>
+          </div>
+          <p>Завод и карьер под контролем: ни один грузовик не выедет без документа. Такого в Битрикс24 и МойСкладе нет вообще.</p>
+        </div>
+      </div>
+
+      <div class="stk-row">
+        <div class="stk-lbl">Остаются и интегрируются</div>
+        <div class="stk-items">
+          <div class="stk-chip k"><span class="nm">IP-телефония</span><span class="rs">приём звонков → сразу в нашу систему</span></div>
+          <div class="stk-chip k"><span class="nm">1С</span><span class="rs">только бухгалтерия → документы уходят автоматически</span></div>
+        </div>
       </div>
     </div>
   </section>
